@@ -1,4 +1,4 @@
-import { Error } from '../interfaces/HttpResponseInterface';
+import { HttpError } from '../interfaces/HttpResponseInterface';
 import { LeveledLogMethod } from 'winston';
 import { logger } from '../utils/logger';
 
@@ -12,7 +12,7 @@ class HttpException extends Error {
     this.message = message;
   }
 
-  getBody(): Error {
+  getBody(): HttpError {
     return { error: this.message };
   }
 

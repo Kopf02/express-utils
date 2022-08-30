@@ -1,12 +1,12 @@
 import { ValidationErrorItem } from 'joi';
 
-export interface Error {
+export interface HttpError {
   error: string;
   errorDetails?: ValidationErrorItem[];
 }
 
-interface Success<T> {
+export interface HttpSuccess<T> {
   data: T;
 }
 
-export type HTTPResponse<T> = Error | Success<T>;
+export type HTTPResponse<T> = HttpError | HttpSuccess<T>;
