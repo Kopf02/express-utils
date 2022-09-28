@@ -20,13 +20,12 @@ class App {
     this.app = express();
     this.port = 8080;
     this.env = process.env.NODE_ENV || 'development';
-
-    this.initializeErrorHandling();
   }
 
   public init() {
     this.initializeMiddlewares();
     this.initializeRoutes(this.routes);
+    this.initializeErrorHandling();
   }
 
   public listen(port?: number) {
