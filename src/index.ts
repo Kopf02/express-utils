@@ -7,6 +7,7 @@ import {
 import Route from './interfaces/RouteInterface';
 import { AbstractRoute } from './utils/AbstractRoute';
 import { logger } from './utils/logger';
+import { getUnixTimestamp } from './utils/unixTimestamp';
 import HttpExceptions from './exceptions';
 
 export {
@@ -18,4 +19,5 @@ export {
   HttpSuccess,
   AbstractRoute,
   HttpExceptions,
+  getUnixTimestamp,
 };
