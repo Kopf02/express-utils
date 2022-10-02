@@ -258,3 +258,6 @@ fabric.properties
 
 # Deployment Settings
 .idea/deployment.xml
+
+#Builded Types
+types/

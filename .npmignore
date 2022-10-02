@@ -1,0 +1,5 @@
+.idea/
+.github/
+.eslintrc.js
+prettier.config.js
+src/
