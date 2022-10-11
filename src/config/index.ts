@@ -23,7 +23,7 @@ export class Config<T extends object> {
     >;
   }
 
-  constructor(configObject: Schema<T>) {
+  constructor(configObject?: Schema<T>) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     this._config = convict({ ...defaultMainConfig, ...configObject });

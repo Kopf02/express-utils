@@ -9,7 +9,11 @@ import { AbstractRoute } from './utils/AbstractRoute';
 import { logger } from './utils/logger';
 import { getUnixTimestamp } from './utils/unixTimestamp';
 import { Config } from './config';
-import { dbConfig, DbConfigInterface } from './config/dbConfig';
+import { dbConfig, IDbConfig } from './config/modules/dbConfig';
+import {
+  rabbitMqConfig,
+  IRabbitMqConfig,
+} from './config/modules/rabbitMqConfig';
 import HttpExceptions from './exceptions';
 
 export {
@@ -24,5 +28,7 @@ export {
   getUnixTimestamp,
   Config,
   dbConfig,
-  DbConfigInterface,
+  IDbConfig,
+  rabbitMqConfig,
+  IRabbitMqConfig,
 };

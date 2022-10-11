@@ -1,6 +1,6 @@
 import { Schema } from 'convict';
 
-export interface DbConfigInterface {
+export interface IDbConfig {
   db: {
     password: string;
     user: string;
@@ -14,7 +14,7 @@ export const dbConfig = (
   db: 'mysql' | 'mongodb',
   projectDefaultName = '',
   optionalDatabaseProperties = {}
-): Schema<DbConfigInterface> => {
+): Schema<IDbConfig> => {
   return {
     db: {
       host: {
