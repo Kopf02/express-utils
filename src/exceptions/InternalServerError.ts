@@ -9,7 +9,7 @@ class InternalServerError extends HttpException {
     this.error = originalError;
   }
   getBody(): HttpError<Error> {
-    if (Config.getConfig().get('env') === 'test')
+    if (Config.getConfig().get('env') === 'development')
       return { ...super.getBody(), errorDetails: this.error };
     else return super.getBody();
   }
