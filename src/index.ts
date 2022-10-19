@@ -15,6 +15,7 @@ import {
   IRabbitMqConfig,
 } from './config/modules/rabbitMqConfig';
 import HttpExceptions from './exceptions';
+import MaintenanceMiddleware from './middlewares/MaintenanceMiddleware';
 
 export {
   App,
@@ -31,4 +32,5 @@ export {
   IDbConfig,
   rabbitMqConfig,
   IRabbitMqConfig,
+  MaintenanceMiddleware,
 };
