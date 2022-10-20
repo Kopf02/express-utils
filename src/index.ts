@@ -16,6 +16,11 @@ import {
 } from './config/modules/rabbitMqConfig';
 import HttpExceptions from './exceptions';
 import MaintenanceMiddleware from './middlewares/MaintenanceMiddleware';
+import { getMongoConnectionString } from './utils/getMongoConnectionString';
+import AbstractDefaultController from './utils/AbstractDefaultController';
+import AbstractDefaultService from './utils/AbstractDefaultService';
+import { IDefaultService } from './interfaces/IDefaultService';
+import { IDefaultController } from './interfaces/IDefaultController';
 
 export {
   App,
@@ -24,9 +29,14 @@ export {
   HTTPResponse,
   HttpError,
   HttpSuccess,
+  IDefaultService,
+  IDefaultController,
   AbstractRoute,
   HttpExceptions,
   getUnixTimestamp,
+  getMongoConnectionString,
+  AbstractDefaultController,
+  AbstractDefaultService,
   Config,
   dbConfig,
   IDbConfig,
