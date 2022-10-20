@@ -1,16 +1,16 @@
 import { Schema } from 'convict';
 
 export interface IRabbitMqConfig {
-  ip: string;
+  host: string;
   port: string;
 }
 
 export const rabbitMqConfig: Schema<IRabbitMqConfig> = {
-  ip: {
-    doc: 'The IP address rabbitmq should connect to',
+  host: {
+    doc: 'The HOST or IP address rabbitmq should connect to',
     format: String,
     default: '127.0.0.1',
-    env: 'RABBIT_IP',
+    env: 'RABBIT_HOST',
   },
   port: {
     doc: 'The Port rabbitmq should connect to',

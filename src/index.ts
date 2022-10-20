@@ -14,6 +14,7 @@ import {
   rabbitMqConfig,
   IRabbitMqConfig,
 } from './config/modules/rabbitMqConfig';
+import { redisConfig, IRedisConfig } from './config/modules/redisConfig';
 import HttpExceptions from './exceptions';
 import MaintenanceMiddleware from './middlewares/MaintenanceMiddleware';
 import { getMongoConnectionString } from './utils/getMongoConnectionString';
@@ -43,6 +44,8 @@ export {
   IDbConfig,
   rabbitMqConfig,
   IRabbitMqConfig,
+  IRedisConfig,
+  redisConfig,
   MaintenanceMiddleware,
   Mysql,
 };
