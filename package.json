@@ -1,6 +1,6 @@
 {
   "name": "@kopf02/express-utils",
-  "version": "1.2.5-dev",
+  "version": "1.2.6-dev",
   "description": "Some Wrapper Classes and Methods to speed up express development",
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "nyc": "^15.1.0",
     "prettier": "^2.7.1",
     "source-map-support": "^0.5.21",
+    "typeorm": "^0.3.10",
     "typescript": "^4.7.4"
   },
   "scripts": {
