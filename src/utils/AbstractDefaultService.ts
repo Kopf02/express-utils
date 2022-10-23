@@ -2,7 +2,7 @@ import { IDefaultService } from '../interfaces/IDefaultService';
 import NotImplemented from '../exceptions/NotImplemented';
 
 abstract class DefaultService<T, I> implements IDefaultService<T, I> {
-  create(_obj: T, _id: I | undefined): Promise<T> {
+  create(_obj: T, _id: I | undefined): Promise<T | null> {
     throw new NotImplemented();
   }
 

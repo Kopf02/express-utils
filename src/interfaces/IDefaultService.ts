@@ -11,7 +11,7 @@ export interface IDefaultService<T, I> {
   //delete data
   delete: (id: I) => Promise<number>;
   //exec actions && create new data with or without knowing the id
-  create: (obj: T, id?: I) => Promise<T>;
+  create: (obj: T, id?: I) => Promise<T | null>;
   //update data
   update: (id: I, obj: T) => Promise<T | null>;
 }
