@@ -52,7 +52,9 @@ abstract class AbstractDefaultController<T, I> implements IDefaultController {
     next: NextFunction
   ) => {
     try {
-      const x = await this.service.get(this._getId(req));
+      const x = req.params.id
+        ? await this.service.get(this._getId(req))
+        : await this.service.list();
       res.json({ data: x });
     } catch (e) {
       next(e);
