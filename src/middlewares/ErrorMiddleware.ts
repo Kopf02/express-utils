@@ -1,10 +1,15 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import HttpException from '../exceptions/HttpException';
 import { HttpError } from '../interfaces/HttpResponseInterface';
 import InternalServerError from '../exceptions/InternalServerError';
 import { logger } from '../utils/logger';
 
-const errorMiddleware = (error: HttpException, req: Request, res: Response) => {
+const errorMiddleware = (
+  error: HttpException,
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
   let status: number;
   let errorBody: HttpError;
   try {
