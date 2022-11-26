@@ -5,15 +5,13 @@ import { IDefaultController } from '../interfaces/IDefaultController';
 import { HttpExceptions, HTTPResponse } from '../index';
 import InputException from '../exceptions/InputException';
 
-abstract class AbstractDefaultController<T, I> implements IDefaultController {
+abstract class AbstractDefaultController<T, I, S extends IDefaultService<T, I>>
+  implements IDefaultController
+{
   private readonly joiSchema: ObjectSchema;
-  protected readonly service: IDefaultService<T, I>;
+  protected readonly service: S;
   private readonly _router: Router | undefined;
-  constructor(obj: {
-    joi: ObjectSchema;
-    service: IDefaultService<T, I>;
-    router?: Router;
-  }) {
+  constructor(obj: { joi: ObjectSchema; service: S; router?: Router }) {
     this.joiSchema = obj.joi;
     this.service = obj.service;
     this._router = obj.router;
