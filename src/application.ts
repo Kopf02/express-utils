@@ -5,12 +5,14 @@ import Route from './interfaces/RouteInterface';
 import errorMiddleware from './middlewares/ErrorMiddleware';
 import { logger } from './utils/logger';
 import { RequestHandlerParams } from 'express-serve-static-core';
+import { Server } from 'http';
 
 class App {
   public app: express.Application;
   public port: string | number;
   public env: string;
 
+  private listener?: Server;
   private _beforeMiddlewares: RequestHandlerParams[];
   private _afterMiddlewares: RequestHandlerParams[];
   private readonly routes: Route[];
@@ -30,7 +32,7 @@ class App {
 
   public listen(port?: number) {
     this.port = port || this.port;
-    this.app.listen(this.port, () => {
+    this.listener = this.app.listen(this.port, () => {
       logger.info('=================================');
       logger.info(`======= ENV: ${this.env} =======`);
       logger.info(`🚀 App listening on the port ${this.port}`);
@@ -40,6 +42,10 @@ class App {
 
   public getServer() {
     return this.app;
+  }
+
+  public close() {
+    this.listener?.close();
   }
 
   private initializeMiddlewares() {

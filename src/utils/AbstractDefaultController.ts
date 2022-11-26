@@ -7,7 +7,7 @@ import InputException from '../exceptions/InputException';
 
 abstract class AbstractDefaultController<T, I> implements IDefaultController {
   private readonly joiSchema: ObjectSchema;
-  private readonly service: IDefaultService<T, I>;
+  protected readonly service: IDefaultService<T, I>;
   private readonly _router: Router | undefined;
   constructor(obj: {
     joi: ObjectSchema;
@@ -36,7 +36,7 @@ abstract class AbstractDefaultController<T, I> implements IDefaultController {
 
   abstract parseId(id: string): I;
 
-  private _getId(req: Request): I {
+  protected _getId(req: Request): I {
     return this.parseId(req.params.id);
   }
 
