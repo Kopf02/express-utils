@@ -6,6 +6,9 @@ import errorMiddleware from './middlewares/ErrorMiddleware';
 import { logger } from './utils/logger';
 import { RequestHandlerParams } from 'express-serve-static-core';
 import { Server } from 'http';
+import * as https from 'https';
+import * as fs from 'fs';
+import { generate } from 'selfsigned';
 
 class App {
   public app: express.Application;
@@ -30,14 +33,21 @@ class App {
     this.initializeErrorHandling();
   }
 
-  public listen(port?: number) {
+  public listen(port?: number, ssl = false) {
     this.port = port || this.port;
-    this.listener = this.app.listen(this.port, () => {
+    const listeningListener = () => {
       logger.info('=================================');
       logger.info(`======= ENV: ${this.env} =======`);
       logger.info(`🚀 App listening on the port ${this.port}`);
+      logger.info(ssl ? '🔒 SSL enabled' : '🔓 SSL disabled');
       logger.info('=================================');
-    });
+    };
+
+    this.listener = ssl
+      ? https
+          .createServer(this.getSslOptions(), this.app)
+          .listen(this.port, listeningListener)
+      : this.app.listen(this.port, listeningListener);
   }
 
   public getServer() {
@@ -46,6 +56,25 @@ class App {
 
   public close() {
     this.listener?.close();
+  }
+
+  private getSslOptions() {
+    let options: { key: Buffer | string; cert: Buffer | string };
+    try {
+      options = {
+        key: fs.readFileSync('./certs/key.pem'),
+        cert: fs.readFileSync('./certs/cert.pem'),
+      };
+    } catch (e) {
+      logger.warning('SSL certificate not found using self signed certificate');
+      const pems = generate(undefined, { days: 365, keySize: 4096 });
+      options = {
+        key: pems.private,
+        cert: pems.cert,
+      };
+    }
+
+    return options;
   }
 
   private initializeMiddlewares() {

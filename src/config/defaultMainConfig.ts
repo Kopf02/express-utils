@@ -4,6 +4,7 @@ export interface DefaultMainConfigInterface {
   port: number;
   env: string;
   loglevel: string;
+  ssl: boolean;
 }
 
 export const defaultMainConfig: Schema<DefaultMainConfigInterface> = {
@@ -25,5 +26,12 @@ export const defaultMainConfig: Schema<DefaultMainConfigInterface> = {
     default: 8080,
     env: 'PORT',
     arg: 'port',
+  },
+  ssl: {
+    doc: 'Enable SSL',
+    format: Boolean,
+    default: false,
+    env: 'SSL',
+    arg: 'ssl',
   },
 };
