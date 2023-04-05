@@ -10,7 +10,7 @@ abstract class AbstractDefaultController<T, I, S extends IDefaultService<T, I>>
 {
   private readonly joiSchema: ObjectSchema;
   protected readonly service: S;
-  private readonly _router: Router | undefined;
+  private readonly _router?: Router;
   constructor(obj: { joi: ObjectSchema; service: S; router?: Router }) {
     this.joiSchema = obj.joi;
     this.service = obj.service;
@@ -21,16 +21,20 @@ abstract class AbstractDefaultController<T, I, S extends IDefaultService<T, I>>
     if (this._router)
       this._router
         .route('/:id?')
-        .get(this.get)
-        .post(this.post)
-        .patch(this.patch)
-        .delete(this.delete)
-        .put(this.put);
+        .get(this.get.bind(this))
+        .post(this.post.bind(this))
+        .patch(this.patch.bind(this))
+        .delete(this.delete.bind(this))
+        .put(this.put.bind(this));
   }
 
   protected _missingID = (req: Request) => {
     if (!req.params.id) throw new HttpExceptions.BadRequest('Missing ID');
   };
+
+  protected get router(): Router | undefined {
+    return this._router;
+  }
 
   abstract parseId(id: string): I;
 
@@ -44,11 +48,11 @@ abstract class AbstractDefaultController<T, I, S extends IDefaultService<T, I>>
     return result;
   }
 
-  protected get = async (
+  protected async get(
     req: Request,
     res: Response<HTTPResponse<T | T[] | null>>,
     next: NextFunction
-  ) => {
+  ) {
     try {
       const x = req.params.id
         ? await this.service.get(this._getId(req))
@@ -57,13 +61,13 @@ abstract class AbstractDefaultController<T, I, S extends IDefaultService<T, I>>
     } catch (e) {
       next(e);
     }
-  };
+  }
 
-  protected delete = async (
+  protected async delete(
     req: Request,
     res: Response<HTTPResponse<number>>,
     next: NextFunction
-  ) => {
+  ) {
     try {
       this._missingID(req);
       const x = await this.service.delete(this._getId(req));
@@ -71,13 +75,13 @@ abstract class AbstractDefaultController<T, I, S extends IDefaultService<T, I>>
     } catch (e) {
       next(e);
     }
-  };
+  }
 
-  protected post = async (
+  protected async post(
     req: Request,
     res: Response<HTTPResponse<T>>,
     next: NextFunction
-  ) => {
+  ) {
     try {
       const validationResult = this._joiValidation('create', req.body);
       const x = await this.service.create(validationResult.value);
@@ -85,13 +89,13 @@ abstract class AbstractDefaultController<T, I, S extends IDefaultService<T, I>>
     } catch (e) {
       next(e);
     }
-  };
+  }
 
-  protected patch = async (
+  protected async patch(
     req: Request,
     res: Response<HTTPResponse<T>>,
     next: NextFunction
-  ) => {
+  ) {
     try {
       this._missingID(req);
       const validationResult = this._joiValidation('update', req.body);
@@ -107,13 +111,13 @@ abstract class AbstractDefaultController<T, I, S extends IDefaultService<T, I>>
     } catch (e) {
       next(e);
     }
-  };
+  }
 
-  protected put = async (
+  protected async put(
     req: Request,
     res: Response<HTTPResponse<T>>,
     next: NextFunction
-  ) => {
+  ) {
     try {
       this._missingID(req); //if id is missing, throw input exception or so
       const validationResult = this._joiValidation('create', req.body); //if validation error throw also exception
@@ -125,7 +129,7 @@ abstract class AbstractDefaultController<T, I, S extends IDefaultService<T, I>>
     } catch (e) {
       next(e); //catch all errors from above and pass to error middleware
     }
-  };
+  }
 }
 
 export default AbstractDefaultController;
