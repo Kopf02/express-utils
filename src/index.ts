@@ -22,7 +22,6 @@ import AbstractDefaultController from './utils/AbstractDefaultController';
 import AbstractDefaultService from './utils/AbstractDefaultService';
 import { IDefaultService } from './interfaces/IDefaultService';
 import { IDefaultController } from './interfaces/IDefaultController';
-import Mysql from './utils/mysqlDataSource';
 
 export {
   App,
@@ -47,5 +46,4 @@ export {
   IRedisConfig,
   redisConfig,
   MaintenanceMiddleware,
-  Mysql,
 };
