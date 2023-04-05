@@ -5,13 +5,13 @@
  */
 export interface IDefaultService<T, I> {
   //fetch data
-  get: (id: I) => Promise<T | null>;
+  get: (id: I, options?: Record<string, never>) => Promise<T | null>;
   //fetch data
-  list: () => Promise<T[]>;
+  list: (options?: Record<string, never>) => Promise<T[]>;
   //delete data
-  delete: (id: I) => Promise<number>;
+  delete: (id: I, options?: Record<string, never>) => Promise<number>;
   //exec actions && create new data with or without knowing the id
-  create: (obj: T, id?: I) => Promise<T>;
+  create: (obj: T, id?: I, options?: Record<string, never>) => Promise<T>;
   //update data
-  update: (id: I, obj: T) => Promise<T | null>;
+  update: (id: I, obj: T, options?: Record<string, never>) => Promise<T | null>;
 }
