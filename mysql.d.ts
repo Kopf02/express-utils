@@ -1,1 +1,1 @@
-export * from './dist/mysql';
+export * from './types/mysql';
