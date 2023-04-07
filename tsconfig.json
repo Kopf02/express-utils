@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES2022",
     "module": "commonjs",
-    "lib": ["dom", "es6", "es2017", "esnext.asynciterable"],
+    "lib": ["es2020", "dom", "esnext.asynciterable"],
     "sourceMap": false,
     "outDir": "./dist",
     "moduleResolution": "node",
