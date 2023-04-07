@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { IDefaultService } from '../interfaces/IDefaultService';
-import { ObjectSchema } from 'joi';
+import { Schema } from 'joi';
 import { IDefaultController } from '../interfaces/IDefaultController';
 import { HttpExceptions, HTTPResponse } from '../index';
 import InputException from '../exceptions/InputException';
@@ -8,10 +8,10 @@ import InputException from '../exceptions/InputException';
 abstract class AbstractDefaultController<T, I, S extends IDefaultService<T, I>>
   implements IDefaultController
 {
-  private readonly joiSchema: ObjectSchema;
+  private readonly joiSchema: Schema<T>;
   protected readonly service: S;
   private readonly _router?: Router;
-  constructor(obj: { joi: ObjectSchema; service: S; router?: Router }) {
+  constructor(obj: { joi: Schema<T>; service: S; router?: Router }) {
     this.joiSchema = obj.joi;
     this.service = obj.service;
     this._router = obj.router;
