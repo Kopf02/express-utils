@@ -66,7 +66,7 @@ class App {
         cert: fs.readFileSync('./certs/cert.pem'),
       };
     } catch (e) {
-      logger.warning('SSL certificate not found using self signed certificate');
+      logger.warn('SSL certificate not found using self signed certificate');
       const pems = generate(undefined, { days: 365, keySize: 4096 });
       options = {
         key: pems.private,
