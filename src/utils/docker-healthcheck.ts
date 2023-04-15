@@ -55,6 +55,7 @@ class DockerHealthcheck {
         host: 'localhost',
         port: options.port,
         path: '/health',
+        agent: new https.Agent({ rejectUnauthorized: false }),
       },
       options.httpsEnabled
     )
