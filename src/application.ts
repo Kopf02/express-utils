@@ -7,6 +7,7 @@ import { logger } from './utils/logger';
 import { RequestHandlerParams } from 'express-serve-static-core';
 import { Server } from 'http';
 import * as https from 'https';
+import * as http from 'http';
 import * as fs from 'fs';
 import { generate } from 'selfsigned';
 
@@ -27,31 +28,41 @@ class App {
     this.env = process.env.NODE_ENV || 'development';
   }
 
-  public init() {
+  public init(ssl = false) {
     this.initializeMiddlewares();
     this.initializeRoutes(this.routes);
     this.initializeErrorHandling();
+    this.initializeHttpServer(ssl);
   }
 
-  public listen(port?: number, ssl = false) {
+  private initializeHttpServer(ssl = false) {
+    this.listener = ssl
+      ? https.createServer(this.getSslOptions(), this.app)
+      : (this.listener = http.createServer(this.app));
+  }
+
+  public listen(port?: number) {
     this.port = port || this.port;
     const listeningListener = () => {
+      const isSsl = this.listener instanceof https.Server;
+
       logger.info('=================================');
       logger.info(`======= ENV: ${this.env} =======`);
       logger.info(`🚀 App listening on the port ${this.port}`);
-      logger.info(ssl ? '🔒 SSL enabled' : '🔓 SSL disabled');
+      logger.info(isSsl ? '🔒 SSL enabled' : '🔓 SSL disabled');
       logger.info('=================================');
     };
 
-    this.listener = ssl
-      ? https
-          .createServer(this.getSslOptions(), this.app)
-          .listen(this.port, listeningListener)
-      : this.app.listen(this.port, listeningListener);
+    this.listener?.listen(this.port, listeningListener) ||
+      logger.error('Server not initialized!');
   }
 
   public getServer() {
     return this.app;
+  }
+
+  public getHttpServer() {
+    return this.listener;
   }
 
   public close() {
