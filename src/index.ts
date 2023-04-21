@@ -15,6 +15,7 @@ import {
   IRabbitMqConfig,
 } from './config/modules/rabbitMqConfig';
 import { redisConfig, IRedisConfig } from './config/modules/redisConfig';
+import { corsConfig, ICorsConfig } from './config/modules/corsConfig';
 import HttpExceptions from './exceptions';
 import MaintenanceMiddleware from './middlewares/MaintenanceMiddleware';
 import { getMongoConnectionString } from './utils/getMongoConnectionString';
@@ -46,4 +47,6 @@ export {
   IRedisConfig,
   redisConfig,
   MaintenanceMiddleware,
+  ICorsConfig,
+  corsConfig,
 };
