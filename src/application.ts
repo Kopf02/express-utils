@@ -10,6 +10,7 @@ import * as https from 'https';
 import * as http from 'http';
 import * as fs from 'fs';
 import { generate } from 'selfsigned';
+import { CorsOptions, CorsOptionsDelegate } from 'cors';
 
 class App {
   public app: express.Application;
@@ -20,6 +21,7 @@ class App {
   private _beforeMiddlewares: RequestHandlerParams[];
   private _afterMiddlewares: RequestHandlerParams[];
   private readonly routes: Route[];
+  private corsOptions?: CorsOptions | CorsOptionsDelegate;
 
   constructor(...routes: Route[]) {
     this.routes = routes;
@@ -96,7 +98,7 @@ class App {
 
     this.app.use(express.json());
 
-    this.app.use(cors());
+    this.app.use(cors(this.corsOptions));
 
     this.app.use(express.urlencoded({ extended: true }));
 
@@ -112,6 +114,10 @@ class App {
 
   public afterMiddlewares(...middlewares: RequestHandlerParams[]) {
     this._afterMiddlewares = middlewares;
+  }
+
+  public setCorsOptions(options: CorsOptions | CorsOptionsDelegate) {
+    this.corsOptions = options;
   }
 
   private initializeRoutes(routes: Route[]) {
