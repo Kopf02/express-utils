@@ -30,6 +30,12 @@ class App {
     this.env = process.env.NODE_ENV || 'development';
   }
 
+  /**
+   * Initializes all middlewares
+   * Also initializes the Http Server if not already initialized
+   * If already initialized, the ssl option will be ignored
+   * @param ssl
+   */
   public init(ssl = false) {
     this.initializeMiddlewares();
     this.initializeRoutes(this.routes);
@@ -37,8 +43,12 @@ class App {
     this.initializeHttpServer(ssl);
   }
 
-  private initializeHttpServer(ssl = false) {
-    this.listener = ssl
+  /**
+   * Will in most cases be called by init()
+   * @param ssl
+   */
+  public initializeHttpServer(ssl = false) {
+    this.listener ||= ssl
       ? https.createServer(this.getSslOptions(), this.app)
       : (this.listener = http.createServer(this.app));
   }
