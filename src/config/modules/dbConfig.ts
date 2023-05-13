@@ -11,10 +11,16 @@ export interface IDbConfig {
 }
 
 export const dbConfig = (
-  db: 'mysql' | 'mongodb',
+  db: 'mysql' | 'mongodb' | 'neo4j',
   projectDefaultName = '',
   optionalDatabaseProperties = {}
 ): Schema<IDbConfig> => {
+  const defaultPort = {
+    mysql: 3306,
+    mongodb: 27017,
+    neo4j: 7687,
+  };
+
   return {
     db: {
       host: {
@@ -26,7 +32,7 @@ export const dbConfig = (
       port: {
         doc: 'Database host port',
         format: Number,
-        default: db === 'mysql' ? 3306 : 27017,
+        default: defaultPort[db],
         env: 'DB_PORT',
       },
       database: {

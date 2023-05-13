@@ -10,6 +10,7 @@ import { logger } from './utils/logger';
 import { getUnixTimestamp } from './utils/unixTimestamp';
 import { Config } from './config';
 import { dbConfig, IDbConfig } from './config/modules/dbConfig';
+import { s3Config, IS3Config } from './config/modules/s3Config';
 import {
   rabbitMqConfig,
   IRabbitMqConfig,
@@ -42,6 +43,8 @@ export {
   Config,
   dbConfig,
   IDbConfig,
+  s3Config,
+  IS3Config,
   rabbitMqConfig,
   IRabbitMqConfig,
   IRedisConfig,
