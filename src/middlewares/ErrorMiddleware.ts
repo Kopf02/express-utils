@@ -18,8 +18,11 @@ const errorMiddleware = (
     error.logLevel()(
       `[${req.method}] ${req.path} >> StatusCode:: ${status}, Message:: ${errorBody.error}`
     );
-  } catch (err) {
-    error = new InternalServerError(error || err);
+  } catch (err: unknown) {
+    const thrownError = error || err;
+    error = new InternalServerError(
+      thrownError instanceof Error ? thrownError : new Error(thrownError)
+    );
     status = error.status;
     errorBody = error.getBody();
     logger.error(

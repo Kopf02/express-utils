@@ -8,9 +8,18 @@ class InternalServerError extends HttpException {
     super(500, 'Internal Server Error');
     this.error = originalError;
   }
-  getBody(): HttpError<Error> {
+  getBody(): HttpError<Record<string, string>> {
     if (Config.getConfig().get('env') === 'development')
-      return { ...super.getBody(), errorDetails: this.error };
+      return {
+        ...super.getBody(),
+        errorDetails: Object.getOwnPropertyNames(this.error).reduce(
+          (prev: Record<string, string>, key) => {
+            prev[key] = this.error[key as never];
+            return prev;
+          },
+          {}
+        ),
+      };
     else return super.getBody();
   }
 }

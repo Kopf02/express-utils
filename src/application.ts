@@ -1,7 +1,6 @@
 import * as express from 'express';
 import * as cors from 'cors';
 
-import Route from './interfaces/RouteInterface';
 import errorMiddleware from './middlewares/ErrorMiddleware';
 import { logger } from './utils/logger';
 import { RequestHandlerParams } from 'express-serve-static-core';
@@ -11,6 +10,7 @@ import * as http from 'http';
 import * as fs from 'fs';
 import { generate } from 'selfsigned';
 import { CorsOptions, CorsOptionsDelegate } from 'cors';
+import { Router } from 'express';
 
 class App {
   public app: express.Application;
@@ -20,11 +20,11 @@ class App {
   private listener?: Server;
   private _beforeMiddlewares: RequestHandlerParams[];
   private _afterMiddlewares: RequestHandlerParams[];
-  private readonly routes: Route[];
+  private readonly router: Router;
   private corsOptions?: CorsOptions | CorsOptionsDelegate;
 
-  constructor(...routes: Route[]) {
-    this.routes = routes;
+  constructor(router: Router) {
+    this.router = router;
     this.app = express();
     this.port = 8080;
     this.env = process.env.NODE_ENV || 'development';
@@ -38,7 +38,7 @@ class App {
    */
   public init(ssl = false) {
     this.initializeMiddlewares();
-    this.initializeRoutes(this.routes);
+    this.initializeRoutes(this.router);
     this.initializeErrorHandling();
     this.initializeHttpServer(ssl);
   }
@@ -130,11 +130,8 @@ class App {
     this.corsOptions = options;
   }
 
-  private initializeRoutes(routes: Route[]) {
-    routes.forEach((route) => {
-      logger.verbose('Initializing Route ' + route.path);
-      this.app.use(route.path, route.router);
-    });
+  private initializeRoutes(routes: Router) {
+    this.app.use(routes);
     this.app.use(function (_req, res) {
       res.status(404).json({ error: 'Page not found' });
     });

@@ -4,8 +4,6 @@ import {
   HTTPResponse,
   HttpSuccess,
 } from './interfaces/HttpResponseInterface';
-import Route from './interfaces/RouteInterface';
-import { AbstractRoute } from './utils/AbstractRoute';
 import { logger } from './utils/logger';
 import { getUnixTimestamp } from './utils/unixTimestamp';
 import { Config } from './config';
@@ -20,26 +18,24 @@ import { corsConfig, ICorsConfig } from './config/modules/corsConfig';
 import HttpExceptions from './exceptions';
 import MaintenanceMiddleware from './middlewares/MaintenanceMiddleware';
 import { getMongoConnectionString } from './utils/getMongoConnectionString';
-import AbstractDefaultController from './utils/AbstractDefaultController';
-import AbstractDefaultService from './utils/AbstractDefaultService';
-import { IDefaultService } from './interfaces/IDefaultService';
-import { IDefaultController } from './interfaces/IDefaultController';
+import { DefaultController } from './controller/DefaultController';
+import { ControllerContext } from './controller/ControllerContext';
+import { createRouter } from './router/createRouter';
+import { RequestTypes } from './router/RequestTypes';
+import { RouterController } from './router/RouterController';
+import { RouteInterface } from './router/RouteInterface';
+import { AbstractDefaultService } from './service/AbstractDefaultService';
+import { IDefaultService } from './service/IDefaultService';
 
 export {
   App,
   logger,
-  Route,
   HTTPResponse,
   HttpError,
   HttpSuccess,
-  IDefaultService,
-  IDefaultController,
-  AbstractRoute,
   HttpExceptions,
   getUnixTimestamp,
   getMongoConnectionString,
-  AbstractDefaultController,
-  AbstractDefaultService,
   Config,
   dbConfig,
   IDbConfig,
@@ -52,4 +48,12 @@ export {
   MaintenanceMiddleware,
   ICorsConfig,
   corsConfig,
+  DefaultController,
+  ControllerContext,
+  createRouter,
+  RequestTypes,
+  RouterController,
+  RouteInterface,
+  AbstractDefaultService,
+  IDefaultService,
 };
